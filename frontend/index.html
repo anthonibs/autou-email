@@ -1,12 +1,47 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/trustmail-favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap"
+      as="style"
+    />
+
+    <!-- DNS prefetch for external domains -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+    <!-- Preconnect for critical third-party origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Load fonts with optimal display strategy -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+    <title>TrustMail</title>
+    <meta
+      name="description"
+      content="O TrustMail é um processador inteligente de e-mails que identifica se um endereço é produtivo ou improdutivo, ajudando sua empresa a otimizar campanhas e manter listas sempre qualificadas."
+    />
   </head>
-  <body>
+  <body class="dark:bg-background">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
