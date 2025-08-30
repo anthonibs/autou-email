@@ -67,7 +67,7 @@ const EmailAnalyticsDashboard = () => {
         <h2 className="text-1xl font-bold text-text">Detalhes dos E-mails</h2>
 
         <div className="ml-auto flex gap-2 items-center">
-          <div className="flex gap-2 items-center border-2 border-border relative p-2 rounded-lg w-full h-10 max-w-sm">
+          <div className="flex gap-2 items-center border border-border relative p-2 rounded-lg w-full h-10 max-w-sm">
             <button
               type="button"
               onClick={handleSearchChange}
@@ -100,14 +100,14 @@ const EmailAnalyticsDashboard = () => {
             name="categoria"
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="h-10 px-2 outline-none cursor-pointer border-2 border-border rounded-lg text-text-muted text-[.875rem]"
+            className="h-10 px-2 outline-none cursor-pointer border border-border rounded-lg text-text-muted text-[.875rem]"
           >
             <option value="all">Todas as Categorias</option>
             <option value="productive">Produtivo</option>
             <option value="unproductive">Improdutivo</option>
           </select>
 
-          <button className="flex cursor-pointer items-center  gap-2 w-fit h-10 px-4 border-2 text-text-muted text-[.875rem] border-border rounded-lg hover:bg-gray-100">
+          <button className="flex cursor-pointer items-center  gap-2 w-fit h-10 px-4 border text-text-muted text-[.875rem] border-border rounded-lg hover:bg-gray-100">
             <ArrowDownTrayIcon className="w-[20px] h-[20px] text-text-muted" />
             Exportar
           </button>

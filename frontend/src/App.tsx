@@ -32,7 +32,7 @@ function App() {
 
       <main className="max-w-[1440px] min-h-screen px-6 pb-10 mx-auto pt-20">
         <div className="mt-8">
-          <h1 className="text-3xl text-center font-bold text-primary">
+          <h1 className="text-4xl text-center font-bold bg-gradient-to-r from-blue-500 via-blue-900 to-blue-100 bg-clip-text text-transparent">
             Processe seu e-mail
           </h1>
 
@@ -53,7 +53,7 @@ function App() {
                 <div className="mt-1 flex h-full flex-col gap-4">
                   <label
                     htmlFor="upload-file-email"
-                    className="flex flex-col h-full gap-1 items-center justify-center cursor-pointer  border-2 border-dashed border-border p-4 rounded-lg bg-gray-50"
+                    className="flex flex-col h-full gap-1 items-center justify-center cursor-pointer  border border-dashed border-border p-4 rounded-lg bg-gray-50"
                   >
                     <DocumentArrowUpIcon className="h-12 w-12 text-primary" />
 
@@ -78,7 +78,7 @@ function App() {
                   />
 
                   <div
-                    className={`text-center w-full min-h-15 text-text-muted border-2 border-border rounded-lg bg-gray-50 transition-all duration-300 ease-in-out ${
+                    className={`text-center w-full min-h-15 text-text-muted border border-border rounded-lg bg-gray-50 transition-all duration-300 ease-in-out ${
                       !file
                         ? "opacity-0 absolute bottom-0 left-0 pointer-events-none"
                         : "opacity-100 scale-100 bg-amber-200"
@@ -121,7 +121,7 @@ function App() {
                   Ou cole o conteúdo do e-mail
                 </h2>
 
-                <div className="mt-1 flex border-2 border-border p-4 rounded-lg h-full">
+                <div className="mt-1 flex border border-border p-4 rounded-lg h-full">
                   <textarea
                     className="w-full h-full border-none outline-none resize-none text-[.75rem]"
                     placeholder="Digite o conteúdo do e-mail"
@@ -157,21 +157,35 @@ function App() {
             <div className="mb-6">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-sm font-medium text-text">
-                  Upload Progress
+                  Progresso do upload
                 </span>
-                <span className="text-sm text-text-muted">75%</span>
+                <span className="text-sm text-text-muted">{`${
+                  file ? ((file?.size * 0.65) / file?.size) * 100 : 0
+                }%`}</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
                   className="bg-primary h-2 rounded-full transition-all duration-300 ease-out"
-                  style={{ width: "75%" }}
+                  style={{
+                    width: `${
+                      file ? ((file?.size * 0.65) / file?.size) * 100 : 0
+                    }%`,
+                  }}
                 ></div>
               </div>
               <div className="flex justify-between items-center mt-2">
-                <span className="text-xs text-text-muted">
-                  Uploading documento.pdf...
-                </span>
-                <span className="text-xs text-text-muted">1.5 MB / 2.0 MB</span>
+                {file?.size && (
+                  <>
+                    <span className="text-xs text-text-muted">
+                      Uploading {file?.name}...
+                    </span>
+
+                    <span className="text-xs text-text-muted">
+                      {`${formatFileSize(file.size * 0.65)} /
+                    ${formatFileSize(file.size)}`}
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -188,7 +202,7 @@ function App() {
             <div className="flex-1">
               <h3 className="text-[.875rem] text-text">Resposta Sugerida</h3>
 
-              <div className="mt-1 border-2 p-4 rounded-lg border-border bg-gray-50">
+              <div className="mt-1 border p-4 rounded-lg border-border bg-gray-50">
                 <p className="text-[.75rem] text-text-muted">
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                   Omnis pariatur facere incidunt adipisci dolor odit quia non
