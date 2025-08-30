@@ -9,6 +9,7 @@
   --color-surface: #ffffff;
   --color-text: #1a1a1a;
   --color-text-muted: #555555;
+  --color-text-disabled: #aaaaaa;
   --color-border: #e0e0e0;
 }
 
@@ -36,6 +37,7 @@
     --color-surface: #2a2a2a;
     --color-text: #f5f5f5;
     --color-text-muted: #c2c2c2;
+    --color-text-disabled: #aaaaaa;
     --color-border: #3a3a3a;
   }
 } */

@@ -2,14 +2,30 @@ import {
   DocumentArrowUpIcon,
   DocumentCheckIcon,
   PaperAirplaneIcon,
-  PencilIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import Header from "./Layout/Header";
 import { TagIcon } from "@heroicons/react/16/solid";
 import EmailAnalyticsDashboard from "./Layout/EmailAnalyticsDashboard";
+import { useState } from "react";
+import { formatFileSize, removeMaliciousScripts } from "./helpers";
+import useFile from "./hooks/useFIle";
 
 function App() {
+  const { file, inputRef, messageError, handleClear, handleFileChange } =
+    useFile();
+
+  const [textAreaValue, setTextAreaValue] = useState("");
+
+  const handleFormSubmit = () => {
+    console.log("Formulário foi enviado", { textAreaValue });
+    console.log(removeMaliciousScripts(textAreaValue));
+  };
+
+  const handleCancelUpload = () => {
+    handleClear();
+  };
+
   return (
     <>
       <Header />
@@ -27,89 +43,107 @@ function App() {
         </div>
 
         <section className="bg-surface mt-8 w-full h-fit mx-auto p-6 rounded-lg shadow-md border border-border">
-          <div className="flex gap-6 py-6">
-            <div className="w-full h-[260px]">
-              <h2 className="text-1xl font-bold text-text">
-                Upload arquivo no e-mail
-              </h2>
+          <form noValidate>
+            <div className="flex gap-6 py-6">
+              <div className="w-full h-[260px]">
+                <h2 className="text-1xl font-bold text-text">
+                  Upload arquivo no e-mail
+                </h2>
 
-              <div className="mt-1 flex h-full flex-col gap-4">
-                <label
-                  htmlFor="upload-file-email"
-                  className="flex flex-col h-full gap-1 items-center justify-center cursor-pointer  border-2 border-dashed border-border p-4 rounded-lg bg-gray-50"
-                >
-                  <DocumentArrowUpIcon className="h-12 w-12 text-primary" />
+                <div className="mt-1 flex h-full flex-col gap-4">
+                  <label
+                    htmlFor="upload-file-email"
+                    className="flex flex-col h-full gap-1 items-center justify-center cursor-pointer  border-2 border-dashed border-border p-4 rounded-lg bg-gray-50"
+                  >
+                    <DocumentArrowUpIcon className="h-12 w-12 text-primary" />
 
-                  <div className="flex flex-col gap-1 items-center mt-3 justify-center">
-                    <p className="text-sm text-text-muted">
-                      Arraste e solte seu arquivo aqui ou clique para fazer
-                      upload
-                    </p>
-
-                    <span className="text-xs text-text-muted uppercase">
-                      .txt ou .pdf (max. 10mb)
-                    </span>
-                  </div>
-                </label>
-
-                <input
-                  id="upload-file-email"
-                  type="file"
-                  accept=".txt,.pdf"
-                  hidden
-                />
-
-                <div
-                  className="text-center w-full min-h-15
-                 text-text-muted border-2 border-border rounded-lg bg-gray-50"
-                >
-                  <div className="flex items-center h-full px-2">
-                    <span className="flex items-center justify-center bg-gray-100 w-10 min-w-10 h-10 rounded-lg">
-                      <DocumentCheckIcon className="w-[24px] h-[24px] text-text-muted" />
-                    </span>
-
-                    <div className="ml-4 w-full">
-                      <p className="text-left text-text text-[.75rem]">
-                        documento.pdf
+                    <div className="flex flex-col gap-1 items-center mt-3 justify-center">
+                      <p className="text-sm text-text-muted">
+                        Clique para fazer upload do arquivo
                       </p>
-                      <p className="text-left text-text-muted text-[.75rem]">
-                        192 kB
-                      </p>
-                    </div>
 
-                    <div className="flex gap-2 ml-4">
-                      <button className="w-10 h-10 flex items-center justify-center">
-                        <PencilIcon className="w-[20px] h-[20px] text-text-muted" />
-                      </button>
-                      <button>
-                        <TrashIcon className="w-[20px] h-[20px] text-text-muted" />
-                      </button>
+                      <span className="text-xs text-text-muted uppercase">
+                        .txt ou .pdf (max. 10mb)
+                      </span>
+                    </div>
+                  </label>
+
+                  <input
+                    ref={inputRef}
+                    id="upload-file-email"
+                    type="file"
+                    accept=".txt,.pdf"
+                    onChange={handleFileChange}
+                    hidden
+                  />
+
+                  <div
+                    className={`text-center w-full min-h-15 text-text-muted border-2 border-border rounded-lg bg-gray-50 transition-all duration-300 ease-in-out ${
+                      !file
+                        ? "opacity-0 absolute bottom-0 left-0 pointer-events-none"
+                        : "opacity-100 scale-100 bg-amber-200"
+                    }`}
+                  >
+                    <div className="flex items-center h-full px-2">
+                      <span className="flex items-center justify-center bg-gray-100 w-10 min-w-10 h-10 rounded-lg">
+                        <DocumentCheckIcon className="w-[24px] h-[24px] text-text-muted" />
+                      </span>
+
+                      <div className="ml-4 w-full">
+                        <p className="text-left text-text text-[.75rem]">
+                          {file?.name}
+                        </p>
+                        <p className="text-left text-text-muted text-[.75rem]">
+                          {formatFileSize(file?.size)}
+                        </p>
+                      </div>
+
+                      <div className="flex gap-2 ml-4">
+                        <button
+                          onClick={handleCancelUpload}
+                          type="button"
+                          className="cursor-pointer"
+                        >
+                          <TrashIcon className="w-[20px] h-[20px] text-text-muted" />
+                        </button>
+                      </div>
                     </div>
                   </div>
+                </div>
+
+                <span className="text-[.75rem] text-red-600">
+                  {messageError}
+                </span>
+              </div>
+
+              <div className="w-full h-[260px]">
+                <h2 className="text-1xl font-bold text-text">
+                  Ou cole o conteúdo do e-mail
+                </h2>
+
+                <div className="mt-1 flex border-2 border-border p-4 rounded-lg h-full">
+                  <textarea
+                    className="w-full h-full border-none outline-none resize-none text-[.75rem]"
+                    placeholder="Digite o conteúdo do e-mail"
+                    value={textAreaValue}
+                    onChange={(e) => setTextAreaValue(e.target.value)}
+                  />
                 </div>
               </div>
             </div>
 
-            <div className="w-full h-[260px]">
-              <h2 className="text-1xl font-bold text-text">
-                Ou cole o conteúdo do e-mail
-              </h2>
-
-              <div className="mt-1 flex border-2 border-border p-4 rounded-lg h-full">
-                <textarea
-                  className="w-full h-full border-none outline-none resize-none text-[.75rem]"
-                  placeholder="Digite o conteúdo do e-mail"
-                />
-              </div>
+            <div className="flex justify-end h-15">
+              <button
+                type="button"
+                onClick={handleFormSubmit}
+                disabled={!file && !textAreaValue}
+                className="mt-6 flex gap-2 items-center justify-center shadow-2xl cursor-pointer text-[.875rem] bg-primary text-white px-5 p-2  h-fit rounded-[8px] hover:bg-primary-dark transition-colors disabled:bg-gray-200 disabled:text-text-disabled disabled:cursor-not-allowed"
+              >
+                <PaperAirplaneIcon className="w-[20px] h-[20px] text-inherit" />
+                Processar Email
+              </button>
             </div>
-          </div>
-
-          <div className="flex justify-end h-15">
-            <button className="mt-6 flex gap-2 items-center justify-center shadow-2xl cursor-pointer text-[.875rem] bg-primary text-white px-5 p-2  h-fit rounded-[8px] hover:bg-primary-dark transition-colors">
-              <PaperAirplaneIcon className="w-[20px] h-[20px] text-white" />
-              Processar Email
-            </button>
-          </div>
+          </form>
         </section>
 
         <section className="bg-surface mt-8 w-full h-fit mx-auto p-6 rounded-lg shadow-md border border-border">
