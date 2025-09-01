@@ -1,0 +1,9 @@
+# Core
+fastapi
+uvicorn[standard]
+
+# Necessário para suportar formulários e upload de arquivos
+python-multipart
+
+PyPDF2
+openai
