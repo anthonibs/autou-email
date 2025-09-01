@@ -7,20 +7,58 @@ import {
 import Header from "./Layout/Header";
 import { TagIcon } from "@heroicons/react/16/solid";
 import EmailAnalyticsDashboard from "./Layout/EmailAnalyticsDashboard";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { formatFileSize, removeMaliciousScripts } from "./helpers";
 import useFile from "./hooks/useFIle";
+import { CATEGORY } from "./constants";
+
+type EmailResponse = {
+  id: string;
+  message: string;
+  datetime: Date;
+  category: "productive" | "unproductive";
+  suggestedReply: string;
+  status: string;
+};
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function App() {
   const { file, inputRef, messageError, handleClear, handleFileChange } =
     useFile();
 
   const [textAreaValue, setTextAreaValue] = useState("");
+  const [emailResponse, setEmailResponse] = useState<EmailResponse | null>(
+    null
+  );
+  const [progress, setProgress] = useState(0);
 
-  const handleFormSubmit = () => {
-    console.log("Formulário foi enviado", { textAreaValue });
-    console.log(removeMaliciousScripts(textAreaValue));
-  };
+  const handleFormSubmit = useCallback(async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/process-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: removeMaliciousScripts(textAreaValue),
+        }),
+      });
+
+      // Simular progresso animado
+      for (let i = 0; i <= 100; i += 5) {
+        setProgress(i);
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+
+      const data = await response.json();
+      setEmailResponse(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setProgress(100);
+    }
+  }, [textAreaValue]);
 
   const handleCancelUpload = () => {
     handleClear();
@@ -153,49 +191,46 @@ function App() {
             <h2 className="text-1xl font-bold text-text">Resultado</h2>
           </header>
 
-          <div>
-            <div className="mb-6">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-text">
-                  Progresso do upload
-                </span>
-                <span className="text-sm text-text-muted">{`${
-                  file ? ((file?.size * 0.65) / file?.size) * 100 : 0
-                }%`}</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-primary h-2 rounded-full transition-all duration-300 ease-out"
-                  style={{
-                    width: `${
-                      file ? ((file?.size * 0.65) / file?.size) * 100 : 0
-                    }%`,
-                  }}
-                ></div>
-              </div>
-              <div className="flex justify-between items-center mt-2">
-                {file?.size && (
-                  <>
-                    <span className="text-xs text-text-muted">
-                      Uploading {file?.name}...
-                    </span>
+          {file?.size && (
+            <div>
+              <div className="mb-6">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-text">
+                    Progresso do upload
+                  </span>
+                  <span className="text-sm text-text-muted">{`${progress}%`}</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="bg-primary h-2 rounded-full transition-all duration-300 ease-out"
+                    style={{
+                      width: `${progress}%`,
+                    }}
+                  ></div>
+                </div>
 
-                    <span className="text-xs text-text-muted">
-                      {`${formatFileSize(file.size * 0.65)} /
+                <div className="flex justify-between items-center mt-2">
+                  <span className="text-xs text-text-muted">
+                    Uploading {file?.name}...
+                  </span>
+
+                  <span className="text-xs text-text-muted">
+                    {`${formatFileSize(file.size * (progress / 100))} /
                     ${formatFileSize(file.size)}`}
-                    </span>
-                  </>
-                )}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           <div className="flex gap-6">
             <div className="flex-1">
               <h3 className="text-[.875rem] text-text">Categoria do Email</h3>
 
               <span className="text-5xl  mt-2 block font-extrabold bg-gradient-to-r from-blue-500 via-blue-900 to-blue-100 bg-clip-text text-transparent">
-                Produtivo
+                {emailResponse?.category
+                  ? CATEGORY[emailResponse?.category]
+                  : "--"}
               </span>
             </div>
 
@@ -204,10 +239,7 @@ function App() {
 
               <div className="mt-1 border p-4 rounded-lg border-border bg-gray-50">
                 <p className="text-[.75rem] text-text-muted">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Omnis pariatur facere incidunt adipisci dolor odit quia non
-                  mollitia ea commodi, sapiente, dolorem iure quis obcaecati.
-                  Fugit error possimus velit enim!
+                  {emailResponse?.suggestedReply}
                 </p>
               </div>
             </div>

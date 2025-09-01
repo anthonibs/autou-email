@@ -1,4 +1,10 @@
-import { useCallback, useMemo, useState, type KeyboardEvent } from "react";
+import {
+  memo,
+  useCallback,
+  useMemo,
+  useState,
+  type KeyboardEvent,
+} from "react";
 
 import {
   ArrowDownTrayIcon,
@@ -10,12 +16,7 @@ import { formatDate } from "../../helpers";
 import useFetch from "../../hooks/useFetch";
 import MessageData from "../../components/MessageData";
 import SkeletonEmail from "../../components/SkeletonEmail";
-
-const CATEGORY: Record<string, string> = {
-  productive: "Produtivo",
-  unproductive: "Improdutivo",
-  spam: "Spam",
-};
+import { CATEGORY } from "../../constants";
 
 type Email = {
   id: string;
@@ -60,19 +61,25 @@ const EmailAnalyticsDashboard = () => {
   const filteredEmails = useMemo(() => {
     if (!emails) return [];
 
-    return emails.filter((email) => {
-      const matchesSubject =
-        emailContent?.length === 0 ||
-        email.suggestedReply
-          .toLowerCase()
-          .includes(emailContent?.toLowerCase() || "");
-      const matchesCategory =
-        selectedCategory === undefined ||
-        selectedCategory === "all" ||
-        email.category === selectedCategory;
+    return emails
+      .sort((a, b) => {
+        const dateA = new Date(a.datetime);
+        const dateB = new Date(b.datetime);
+        return dateB.getTime() - dateA.getTime();
+      })
+      .filter((email) => {
+        const matchesSubject =
+          emailContent?.length === 0 ||
+          email.suggestedReply
+            .toLowerCase()
+            .includes(emailContent?.toLowerCase() || "");
+        const matchesCategory =
+          selectedCategory === undefined ||
+          selectedCategory === "all" ||
+          email.category === selectedCategory;
 
-      return matchesSubject && matchesCategory;
-    });
+        return matchesSubject && matchesCategory;
+      });
   }, [emailContent, emails, selectedCategory]);
 
   if (isError) {
@@ -181,4 +188,4 @@ const EmailAnalyticsDashboard = () => {
   );
 };
 
-export default EmailAnalyticsDashboard;
+export default memo(EmailAnalyticsDashboard);
