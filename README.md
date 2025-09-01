@@ -5,6 +5,14 @@
 
 Sistema de classificação e resposta automática de emails.
 
+
+## Demonstração em Vídeo
+
+Confira abaixo um exemplo da aplicação em funcionamento, desde o envio de emails até a classificação e sugestão de resposta automática:
+
+[Screencast from 2025-09-01 20-45-34.webm](https://github.com/user-attachments/assets/700b8a69-1513-4475-a10d-969487de2481)
+
+
 ---
 
 ## Estrutura do Projeto
@@ -15,6 +23,16 @@ O projeto está dividido em duas partes principais:
 - **Frontend:** Interface web para upload de emails e exibição dos resultados.
 
 ---
+
+## Funcionalidades
+
+- Upload de arquivos .txt e .pdf com conteúdo de emails.
+- Classificação automática dos emails em Produtivo ou Improdutivo.
+- Exibição da lista de emails processados com data e conteúdo.
+- Sugestão de resposta automática para emails produtivos.
+- API com rotas:
+  - `/emails` → retorna a lista de emails processados.
+  - `/process-email` → processa um novo email enviado.
 
 ## **Backend**
 
