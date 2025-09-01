@@ -13,22 +13,22 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { formatDate } from "../../helpers";
-import useFetch from "../../hooks/useFetch";
 import MessageData from "../../components/MessageData";
 import SkeletonEmail from "../../components/SkeletonEmail";
 import { CATEGORY } from "../../constants";
+import type { Email } from "../../App";
 
-type Email = {
-  id: string;
-  message: string;
-  suggestedReply: string;
-  datetime: Date | string;
-  category: string;
+type EmailAnalyticsDashboardProps = {
+  emails: Email[] | null;
+  isError: boolean;
+  isLoading: boolean;
 };
 
-const EmailAnalyticsDashboard = () => {
-  const { data: emails, isError, isLoading } = useFetch<Email[]>();
-
+const EmailAnalyticsDashboard = ({
+  emails,
+  isError,
+  isLoading,
+}: EmailAnalyticsDashboardProps) => {
   const [searchSubject, setSearchSubject] = useState<string | undefined>();
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
@@ -147,16 +147,16 @@ const EmailAnalyticsDashboard = () => {
         {!isLoading &&
           filteredEmails.map((email) => (
             <li
-              key={email.id}
+              key={email?.id}
               className="border  border-border p-4 relative rounded-md"
             >
               <span className="text-[.75rem] text-text-muted">
-                {formatDate(email.datetime)}
+                {formatDate(email?.datetime)}
               </span>
 
               <span
                 className={`absolute right-4 top-4 text-[.675rem] px-3 h-6 flex items-center rounded-full ${
-                  email.category === "unproductive"
+                  email?.category === "unproductive"
                     ? "text-red-600 bg-red-100"
                     : "text-primary bg-blue-100"
                 }`}
@@ -165,7 +165,7 @@ const EmailAnalyticsDashboard = () => {
               </span>
 
               <h4 className="text-[.875rem] font-bold text-text">
-                {email.message}
+                {email?.message}
               </h4>
 
               <div className="mt-4">
@@ -175,7 +175,7 @@ const EmailAnalyticsDashboard = () => {
 
                 <div className="mt-1 border p-3 rounded-lg border-border bg-gray-50">
                   <p className="text-[.75rem] text-text-muted line-clamp-1 text-ellipsis overflow-hidden">
-                    {email.suggestedReply}
+                    {email?.suggestedReply}
                   </p>
                 </div>
               </div>
