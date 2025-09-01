@@ -1,11 +1,15 @@
+import { useCallback, useMemo, useState, type KeyboardEvent } from "react";
+
 import {
   ArrowDownTrayIcon,
   MagnifyingGlassIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useCallback, useMemo, useState, type KeyboardEvent } from "react";
-import { mockupEmails } from "./mockupEmails";
+
 import { formatDate } from "../../helpers";
+import useFetch from "../../hooks/useFetch";
+import MessageData from "../../components/MessageData";
+import SkeletonEmail from "../../components/SkeletonEmail";
 
 const CATEGORY: Record<string, string> = {
   productive: "Produtivo",
@@ -13,7 +17,17 @@ const CATEGORY: Record<string, string> = {
   spam: "Spam",
 };
 
+type Email = {
+  id: string;
+  message: string;
+  suggestedReply: string;
+  datetime: Date | string;
+  category: string;
+};
+
 const EmailAnalyticsDashboard = () => {
+  const { data: emails, isError, isLoading } = useFetch<Email[]>();
+
   const [searchSubject, setSearchSubject] = useState<string | undefined>();
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
@@ -43,23 +57,31 @@ const EmailAnalyticsDashboard = () => {
     setEmailContent(searchSubject?.toLowerCase().trim());
   }, [searchSubject]);
 
-  const filteredEmails = useMemo(
-    () =>
-      mockupEmails.filter((email) => {
-        const matchesSubject =
-          emailContent?.length === 0 ||
-          email.subject
-            .toLowerCase()
-            .includes(emailContent?.toLowerCase() || "");
-        const matchesCategory =
-          selectedCategory === undefined ||
-          selectedCategory === "all" ||
-          email.category === selectedCategory;
+  const filteredEmails = useMemo(() => {
+    if (!emails) return [];
 
-        return matchesSubject && matchesCategory;
-      }),
-    [emailContent, selectedCategory]
-  );
+    return emails.filter((email) => {
+      const matchesSubject =
+        emailContent?.length === 0 ||
+        email.suggestedReply
+          .toLowerCase()
+          .includes(emailContent?.toLowerCase() || "");
+      const matchesCategory =
+        selectedCategory === undefined ||
+        selectedCategory === "all" ||
+        email.category === selectedCategory;
+
+      return matchesSubject && matchesCategory;
+    });
+  }, [emailContent, emails, selectedCategory]);
+
+  if (isError) {
+    return (
+      <section className="bg-surface mt-8 w-full h-fit mx-auto p-10 rounded-lg shadow-md border border-border">
+        <MessageData />
+      </section>
+    );
+  }
 
   return (
     <section className="bg-surface mt-8 w-full h-fit mx-auto p-6 rounded-lg shadow-md border border-border">
@@ -115,42 +137,45 @@ const EmailAnalyticsDashboard = () => {
       </header>
 
       <ul className="mt-2 flex flex-col gap-4">
-        {filteredEmails.map((email) => (
-          <li
-            key={email.id}
-            className="border  border-border p-4 relative rounded-md"
-          >
-            <span className="text-[.75rem] text-text-muted">
-              {formatDate(email.datetime)}
-            </span>
-
-            <span
-              className={`absolute right-4 top-4 text-[.675rem] px-3 h-6 flex items-center rounded-full ${
-                email.category === "unproductive"
-                  ? "text-red-600 bg-red-100"
-                  : "text-primary bg-blue-100"
-              }`}
+        {!isLoading &&
+          filteredEmails.map((email) => (
+            <li
+              key={email.id}
+              className="border  border-border p-4 relative rounded-md"
             >
-              {CATEGORY[email.category]}
-            </span>
+              <span className="text-[.75rem] text-text-muted">
+                {formatDate(email.datetime)}
+              </span>
 
-            <h4 className="text-[.875rem] font-bold text-text">
-              {email.subject}
-            </h4>
+              <span
+                className={`absolute right-4 top-4 text-[.675rem] px-3 h-6 flex items-center rounded-full ${
+                  email.category === "unproductive"
+                    ? "text-red-600 bg-red-100"
+                    : "text-primary bg-blue-100"
+                }`}
+              >
+                {CATEGORY[email.category]}
+              </span>
 
-            <div className="mt-4">
-              <h5 className="text-[.75rem] font-bold text-text-muted">
-                Resposta Sugerida
-              </h5>
+              <h4 className="text-[.875rem] font-bold text-text">
+                {email.message}
+              </h4>
 
-              <div className="mt-1 border p-3 rounded-lg border-border bg-gray-50">
-                <p className="text-[.75rem] text-text-muted line-clamp-1 text-ellipsis overflow-hidden">
-                  {email.response}
-                </p>
+              <div className="mt-4">
+                <h5 className="text-[.75rem] font-bold text-text-muted">
+                  Resposta Sugerida
+                </h5>
+
+                <div className="mt-1 border p-3 rounded-lg border-border bg-gray-50">
+                  <p className="text-[.75rem] text-text-muted line-clamp-1 text-ellipsis overflow-hidden">
+                    {email.suggestedReply}
+                  </p>
+                </div>
               </div>
-            </div>
-          </li>
-        ))}
+            </li>
+          ))}
+
+        <SkeletonEmail skeletonItems={3} isLoading={isLoading} />
       </ul>
     </section>
   );
