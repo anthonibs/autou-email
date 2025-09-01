@@ -19,13 +19,30 @@ O projeto está dividido em duas partes principais:
 
 ## **Backend**
 
+### Variáveis de ambiente
+
+Crie um arquivo .env dentro da pasta backend com o seguinte conteúdo:
+
+```bash
+VITE_API_BASE_URL=http://localhost:8000
+OPEN_AI_KEY=<sua_chave_openai_aqui>
+```
+
+- `VITE_API_BASE_URL`: URL base onde o backend será acessado.
+- `OPEN_AI_KEY`: sua chave da API da OpenAI para processar os emails.
+
+### Rotas disponíveis
+
+- `GET /emails` → Retorna lista de emails mockados.
+- `POST /process-email` → Recebe um texto ou arquivo (.txt/.pdf) e retorna classificação (Produtivo/Improdutivo) e resposta sugerida.
+
 ### Passos para rodar localmente:
 
 1. Navegue até a pasta `backend`:
 
 ```bash
 cd backend
-````
+```
 
 2. Crie o ambiente virtual:
 
