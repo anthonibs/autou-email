@@ -1,0 +1,52 @@
+[
+  {
+    "email": "Pode confirmar a reunião de amanhã às 15h?",
+    "tag": "productive",
+    "suggestedReply": "Confirmado, estarei disponível amanhã às 15h."
+  },
+  {
+    "email": "Bom dia, espero que tenha tido um ótimo fim de semana!",
+    "tag": "unproductive",
+    "suggestedReply": "Bom dia! Muito obrigado, espero que o seu também tenha sido ótimo."
+  },
+  {
+    "email": "Você pode revisar o contrato que enviei ontem?",
+    "tag": "productive",
+    "suggestedReply": "Claro, vou revisar o contrato e envio um retorno em breve."
+  },
+  {
+    "email": "Feliz Ano Novo! Desejo muito sucesso em 2025.",
+    "tag": "unproductive",
+    "suggestedReply": "Muito obrigado! Desejo também um excelente 2025 para você."
+  },
+  {
+    "email": "Preciso da sua aprovação para liberar a proposta do cliente Y.",
+    "tag": "productive",
+    "suggestedReply": "Obrigado pelo envio, vou analisar e liberar a aprovação ainda hoje."
+  },
+  {
+    "email": "Gostei muito da sua apresentação ontem!",
+    "tag": "unproductive",
+    "suggestedReply": "Fico muito feliz com o feedback, obrigado pela mensagem."
+  },
+  {
+    "email": "O sistema está fora do ar desde as 8h, pode verificar?",
+    "tag": "productive",
+    "suggestedReply": "Entendido, já estou verificando o problema no sistema."
+  },
+  {
+    "email": "Boa tarde, como você está?",
+    "tag": "unproductive",
+    "suggestedReply": "Boa tarde! Estou bem, obrigado por perguntar."
+  },
+  {
+    "email": "Segue a planilha com os dados atualizados de vendas.",
+    "tag": "productive",
+    "suggestedReply": "Planilha recebida, obrigado! Vou analisar os dados."
+  },
+  {
+    "email": "Queria agradecer pela ajuda da semana passada!",
+    "tag": "unproductive",
+    "suggestedReply": "Fico feliz em poder ajudar, muito obrigado pela mensagem."
+  }
+]
