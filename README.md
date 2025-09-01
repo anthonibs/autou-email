@@ -1,7 +1,6 @@
 ![o](https://github.com/user-attachments/assets/51c10b4c-d188-4fe1-a2b9-afede27b937f)
 
 
-
 # Process Email
 
 Sistema de classificação e resposta automática de emails.
@@ -129,5 +128,5 @@ npm run build
 
 ## **Licença**
 
-MIT License
+[MIT License](https://github.com/anthonibs/process-email?tab=MIT-1-ov-file)
 
