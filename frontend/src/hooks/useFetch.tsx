@@ -7,29 +7,29 @@ const useFetch = <T,>() => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(`${API_BASE_URL}/emails`);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setData(data);
-        setIsError(false);
-      } catch (error) {
-        console.error("Error fetching emails:", error);
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${API_BASE_URL}/emails`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-    };
+      const data = await response.json();
+      setData(data);
+      setIsError(false);
+    } catch (error) {
+      console.error("Error fetching emails:", error);
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
-  return { data, isLoading, isError };
+  return { data, isLoading, isError, refetch: fetchData };
 };
 
 export default useFetch;

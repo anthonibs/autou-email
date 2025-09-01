@@ -1,4 +1,6 @@
 export function formatDate(dateString: Date | string) {
+  if (!dateString) return "";
+
   return new Intl.DateTimeFormat("pt-BR", {
     dateStyle: "long",
     timeStyle: "short",

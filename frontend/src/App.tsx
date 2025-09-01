@@ -11,6 +11,7 @@ import { useCallback, useState } from "react";
 import { formatFileSize, removeMaliciousScripts } from "./helpers";
 import useFile from "./hooks/useFIle";
 import { CATEGORY } from "./constants";
+import useFetch from "./hooks/useFetch";
 
 type EmailResponse = {
   id: string;
@@ -21,44 +22,53 @@ type EmailResponse = {
   status: string;
 };
 
+export type Email = {
+  id: string;
+  message: string;
+  suggestedReply: string;
+  datetime: Date | string;
+  category: string;
+};
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function App() {
   const { file, inputRef, messageError, handleClear, handleFileChange } =
     useFile();
 
+  const { data: emails, isError, isLoading, refetch } = useFetch<Email[]>();
+
   const [textAreaValue, setTextAreaValue] = useState("");
   const [emailResponse, setEmailResponse] = useState<EmailResponse | null>(
     null
   );
-  const [progress, setProgress] = useState(0);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleFormSubmit = useCallback(async () => {
     try {
+      setIsProcessing(true);
+      const formData = new FormData();
+      formData.append("message", removeMaliciousScripts(textAreaValue));
+      if (file) {
+        formData.append("file", file);
+      }
+
       const response = await fetch(`${API_BASE_URL}/process-email`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: removeMaliciousScripts(textAreaValue),
-        }),
+        body: formData,
       });
-
-      // Simular progresso animado
-      for (let i = 0; i <= 100; i += 5) {
-        setProgress(i);
-        await new Promise((resolve) => setTimeout(resolve, 100));
-      }
 
       const data = await response.json();
       setEmailResponse(data);
+      setTextAreaValue("");
+      refetch();
     } catch (error) {
       console.log(error);
     } finally {
-      setProgress(100);
+      handleClear();
+      setIsProcessing(false);
     }
-  }, [textAreaValue]);
+  }, [file, handleClear, refetch, textAreaValue]);
 
   const handleCancelUpload = () => {
     handleClear();
@@ -174,11 +184,11 @@ function App() {
               <button
                 type="button"
                 onClick={handleFormSubmit}
-                disabled={!file && !textAreaValue}
+                disabled={!file && !textAreaValue || isProcessing}
                 className="mt-6 flex gap-2 items-center justify-center shadow-2xl cursor-pointer text-[.875rem] bg-primary text-white px-5 p-2  h-fit rounded-[8px] hover:bg-primary-dark transition-colors disabled:bg-gray-200 disabled:text-text-disabled disabled:cursor-not-allowed"
               >
                 <PaperAirplaneIcon className="w-[20px] h-[20px] text-inherit" />
-                Processar Email
+                {isProcessing ? "Processando Email..." : "Processar Email"}
               </button>
             </div>
           </form>
@@ -191,43 +201,17 @@ function App() {
             <h2 className="text-1xl font-bold text-text">Resultado</h2>
           </header>
 
-          {file?.size && (
-            <div>
-              <div className="mb-6">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium text-text">
-                    Progresso do upload
-                  </span>
-                  <span className="text-sm text-text-muted">{`${progress}%`}</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-primary h-2 rounded-full transition-all duration-300 ease-out"
-                    style={{
-                      width: `${progress}%`,
-                    }}
-                  ></div>
-                </div>
-
-                <div className="flex justify-between items-center mt-2">
-                  <span className="text-xs text-text-muted">
-                    Uploading {file?.name}...
-                  </span>
-
-                  <span className="text-xs text-text-muted">
-                    {`${formatFileSize(file.size * (progress / 100))} /
-                    ${formatFileSize(file.size)}`}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
           <div className="flex gap-6">
             <div className="flex-1">
               <h3 className="text-[.875rem] text-text">Categoria do Email</h3>
 
-              <span className="text-5xl  mt-2 block font-extrabold bg-gradient-to-r from-blue-500 via-blue-900 to-blue-100 bg-clip-text text-transparent">
+              <span
+                className={`text-5xl  mt-2 block font-extrabold bg-gradient-to-r  bg-clip-text text-transparent ${
+                  emailResponse?.category !== "unproductive"
+                    ? "from-blue-500 via-blue-900 to-blue-100"
+                    : "from-red-500 via-red-600 to-red-300"
+                }`}
+              >
                 {emailResponse?.category
                   ? CATEGORY[emailResponse?.category]
                   : "--"}
@@ -246,7 +230,11 @@ function App() {
           </div>
         </section>
 
-        <EmailAnalyticsDashboard />
+        <EmailAnalyticsDashboard
+          emails={emails}
+          isError={isError}
+          isLoading={isLoading}
+        />
       </main>
     </>
   );
