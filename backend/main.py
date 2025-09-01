@@ -19,9 +19,9 @@ from dotenv import load_dotenv, find_dotenv
 BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(find_dotenv(str(BASE_DIR / ".env")))
 
-api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("OPEN_AI_KEY")
 if not api_key:
-    raise RuntimeError("A variável OPENAI_API_KEY não está definida!")
+    raise RuntimeError("A variável OPEN_AI_KEY não está definida!")
 
 client = OpenAI(api_key=api_key)
 
