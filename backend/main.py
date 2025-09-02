@@ -6,10 +6,11 @@ from pathlib import Path
 import json
 import os
 
-from .models import emails, generate_uuid
-from .schemas import EmailIn, EmailOut
-from .utils import read_file
-from .gpt_classifier import classify_with_gpt
+from backend.models import emails, generate_uuid
+from backend.schemas import EmailIn, EmailOut
+from backend.utils import read_file
+from backend.gpt_classifier import classify_with_gpt
+
 from openai import OpenAI
 from dotenv import load_dotenv, find_dotenv
 
