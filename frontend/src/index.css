@@ -1,18 +1,5 @@
 @import "tailwindcss";
 
-@theme {
-  --color-primary: #1976d2;
-  --color-primary-light: #63a4ff;
-  --color-primary-dark: #004ba0;
-
-  --color-background: #f8f8f8;
-  --color-surface: #ffffff;
-  --color-text: #1a1a1a;
-  --color-text-muted: #555555;
-  --color-text-disabled: #aaaaaa;
-  --color-border: #e0e0e0;
-}
-
 :root {
   /* Typography */
   font-family: "Noto Sans", system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -27,17 +14,58 @@
   box-sizing: border-box;
 }
 
-/* @media (prefers-color-scheme: dark) {
+@theme {
+  /* Primary Colors */
+  --color-primary: #1976d2;
+  --color-primary-light: #63a4ff;
+  --color-primary-dark: #004ba0;
+
+  /* Background & Surface */
+  --color-background: #f8f8f8;
+  --color-surface: #ffffff;
+  --color-bg-input: #fbf9fa;
+
+  /* Text Colors */
+  --color-text: #1a1a1a;
+  --color-text-muted: #555555;
+  --color-text-disabled: #aaaaaa;
+
+  /* UI Elements */
+  --color-border: #e0e0e0;
+  --color-button-disabled: #ebe6e7;
+
+  /* Status Colors */
+  --color-success: #dbeafe;
+  --color-success-dark: #1976d2;
+  --color-error: #ffe2e2;
+  --color-error-dark: #e7000b;
+}
+
+@media (prefers-color-scheme: dark) {
   @theme {
-    --color-primary: #63a4ff;
+    /* Primary Colors */
+    --color-primary: #0061e9;
     --color-primary-light: #90caf9;
     --color-primary-dark: #1976d2;
 
-    --color-background: #1e1e1e;
-    --color-surface: #2a2a2a;
-    --color-text: #f5f5f5;
-    --color-text-muted: #c2c2c2;
-    --color-text-disabled: #aaaaaa;
-    --color-border: #3a3a3a;
+    /* Background & Surface */
+    --color-background: #2b2b2b;
+    --color-surface: #232323;
+    --color-bg-input: #333333;
+
+    /* Text Colors */
+    --color-text: #ffffff;
+    --color-text-muted: #ffffff;
+    --color-text-disabled: #717171;
+
+    /* UI Elements */
+    --color-border: #4d4d4d;
+    --color-button-disabled: #313030;
+
+    /* Status Colors */
+    --color-success: #1976d2;
+    --color-success-dark: #fff;
+    --color-error: #e7000b;
+    --color-error-dark: #fff;
   }
-} */
+}

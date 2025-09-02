@@ -101,7 +101,7 @@ function App() {
                 <div className="mt-1 flex h-full flex-col gap-4">
                   <label
                     htmlFor="upload-file-email"
-                    className="flex flex-col h-full gap-1 items-center justify-center cursor-pointer  border border-dashed border-border p-4 rounded-lg bg-gray-50"
+                    className="flex flex-col h-full gap-1 items-center justify-center cursor-pointer  border border-dashed border-border p-4 rounded-lg bg-bg-input"
                   >
                     <DocumentArrowUpIcon className="h-12 w-12 text-primary" />
 
@@ -126,14 +126,14 @@ function App() {
                   />
 
                   <div
-                    className={`text-center w-full min-h-15 text-text-muted border border-border rounded-lg bg-gray-50 transition-all duration-300 ease-in-out ${
+                    className={`text-center w-full min-h-15 text-text-muted border border-border rounded-lg bg-surface transition-all duration-300 ease-in-out ${
                       !file
                         ? "opacity-0 absolute bottom-0 left-0 pointer-events-none"
                         : "opacity-100 scale-100 bg-amber-200"
                     }`}
                   >
                     <div className="flex items-center h-full px-2">
-                      <span className="flex items-center justify-center bg-gray-100 w-10 min-w-10 h-10 rounded-lg">
+                      <span className="flex items-center justify-center bg-bg-input w-10 min-w-10 h-10 rounded-lg">
                         <DocumentCheckIcon className="w-[24px] h-[24px] text-text-muted" />
                       </span>
 
@@ -171,7 +171,7 @@ function App() {
 
                 <div className="mt-1 flex border border-border p-4 rounded-lg h-full">
                   <textarea
-                    className="w-full h-full border-none outline-none resize-none text-[.75rem]"
+                    className="w-full h-full border-none outline-none resize-none text-[.75rem] text-text-muted"
                     placeholder="Digite o conteúdo do e-mail"
                     value={textAreaValue}
                     onChange={(e) => setTextAreaValue(e.target.value)}
@@ -185,7 +185,7 @@ function App() {
                 type="button"
                 onClick={handleFormSubmit}
                 disabled={!file && !textAreaValue || isProcessing}
-                className="mt-6 flex gap-2 items-center justify-center shadow-2xl cursor-pointer text-[.875rem] bg-primary text-white px-5 p-2  h-fit rounded-[8px] hover:bg-primary-dark transition-colors disabled:bg-gray-200 disabled:text-text-disabled disabled:cursor-not-allowed"
+                className="mt-6 flex gap-2 items-center justify-center shadow-2xl cursor-pointer text-[.875rem] bg-primary text-white px-5 p-2  h-fit rounded-[8px] hover:bg-primary-dark transition-colors disabled:bg-button-disabled disabled:text-text-disabled disabled:cursor-not-allowed"
               >
                 <PaperAirplaneIcon className="w-[20px] h-[20px] text-inherit" />
                 {isProcessing ? "Processando Email..." : "Processar Email"}
@@ -221,7 +221,7 @@ function App() {
             <div className="flex-1">
               <h3 className="text-[.875rem] text-text">Resposta Sugerida</h3>
 
-              <div className="mt-1 border p-4 rounded-lg border-border bg-gray-50">
+              <div className="mt-1 border p-4 rounded-lg border-border bg-bg-input">
                 <p className="text-[.75rem] text-text-muted">
                   {emailResponse?.suggestedReply}
                 </p>

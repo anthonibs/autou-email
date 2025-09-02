@@ -157,8 +157,8 @@ const EmailAnalyticsDashboard = ({
               <span
                 className={`absolute right-4 top-4 text-[.675rem] px-3 h-6 flex items-center rounded-full ${
                   email?.category === "unproductive"
-                    ? "text-red-600 bg-red-100"
-                    : "text-primary bg-blue-100"
+                    ? "text-error-dark bg-error"
+                    : "text-success-dark bg-success"
                 }`}
               >
                 {CATEGORY[email.category]}
@@ -173,7 +173,7 @@ const EmailAnalyticsDashboard = ({
                   Resposta Sugerida
                 </h5>
 
-                <div className="mt-1 border p-3 rounded-lg border-border bg-gray-50">
+                <div className="mt-1 border p-3 rounded-lg border-border bg-bg-input">
                   <p className="text-[.75rem] text-text-muted line-clamp-1 text-ellipsis overflow-hidden">
                     {email?.suggestedReply}
                   </p>
