@@ -16,13 +16,6 @@ class Email(BaseModel):
 
 # Mock email list
 emails: List[Email] = [
-    { 
-        "id": generate_uuid(),
-        "message": "Preciso do status da minha solicitação.",
-        "category": "productive",
-        "suggestedReply": "Obrigado pelo envio! Irei verificar e responder em breve.",
-        "datetime": "2025-08-31 16:45"
-    },
     {
         "id": generate_uuid(),
         "message": "Feliz aniversário!",
