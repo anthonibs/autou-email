@@ -38,7 +38,7 @@ with open('backend/model.json', 'r', encoding='utf-8') as f:
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://trust-email.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
