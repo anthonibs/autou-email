@@ -2,10 +2,9 @@
 
 
 
-# Process Email
+# Trust Email: O seu assistente pessoal de e-mails.
 
-Sistema de classificação e resposta automática de emails.
-
+O Trust Email automatiza suas respostas, liberando você para focar no que realmente importa. Com nossa inteligência artificial avançada, suas mensagens são analisadas e respondidas de forma instantânea, mantendo a profissionalidade e a personalização.
 
 ## Demonstração em Vídeo
 
