@@ -25,14 +25,14 @@ const Header = () => {
             </li>
           </ul>
 
-          <a>
+          <a href="#" aria-label="Ajuda">
             <QuestionMarkCircleIcon className="h-6 w-6 text-text" />
           </a>
 
           <div className="h-10 w-10">
             <img
               className="h-10 w-10 rounded-full object-center object-cover"
-              src="https://cdn.pixabay.com/photo/2018/01/22/07/31/portrait-3098319_1280.jpg"
+              src="avatar-trust-email.webp"
               alt=""
             />
           </div>

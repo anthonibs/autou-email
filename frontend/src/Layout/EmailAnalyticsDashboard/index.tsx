@@ -99,6 +99,7 @@ const EmailAnalyticsDashboard = ({
           <div className="flex gap-2 items-center border border-border relative p-2 rounded-lg w-full h-10 max-w-sm">
             <button
               type="button"
+              aria-label="Pesquisar e-mails"
               onClick={handleSearchChange}
               className="cursor-pointer"
             >
@@ -107,6 +108,7 @@ const EmailAnalyticsDashboard = ({
 
             <button
               type="button"
+              aria-label="Limpar pesquisa"
               onClick={handleClearSearch}
               className={`absolute right-2 bg-surface z-10 cursor-pointer ${
                 searchSubject ? "visible" : "invisible"
@@ -125,8 +127,12 @@ const EmailAnalyticsDashboard = ({
             />
           </div>
 
+          <label htmlFor="categories" className="sr-only">
+            Categoria
+          </label>
           <select
-            name="categoria"
+            id="categories"
+            name="categories"
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
             className="h-10 px-2 outline-none w-full cursor-pointer border border-border rounded-lg text-text-muted text-[.875rem]"
@@ -136,7 +142,10 @@ const EmailAnalyticsDashboard = ({
             <option value="unproductive">Improdutivo</option>
           </select>
 
-          <button className="cursor-pointer items-center  gap-2 w-fit h-10 px-4 border text-text-muted text-[.875rem] border-border rounded-lg hover:bg-gray-100 hidden md:flex">
+          <button
+            aria-label="Exportar E-mails"
+            className="cursor-pointer items-center  gap-2 w-fit h-10 px-4 border text-text-muted text-[.875rem] border-border rounded-lg hover:bg-gray-100 hidden md:flex"
+          >
             <ArrowDownTrayIcon className="w-[20px] h-[20px] text-text-muted" />
             Exportar
           </button>
@@ -164,14 +173,14 @@ const EmailAnalyticsDashboard = ({
                 {CATEGORY[email.category]}
               </span>
 
-              <h4 className="text-[.875rem] font-bold text-text">
+              <h3 className="text-[.875rem] font-bold text-text">
                 {email?.message}
-              </h4>
+              </h3>
 
               <div className="mt-4">
-                <h5 className="text-[.75rem] font-bold text-text-muted">
+                <h4 className="text-[.75rem] font-bold text-text-muted">
                   Resposta Sugerida
-                </h5>
+                </h4>
 
                 <div className="mt-1 border p-3 rounded-lg border-border bg-bg-input">
                   <p className="text-[.75rem] text-text-muted line-clamp-1 text-ellipsis overflow-hidden">
