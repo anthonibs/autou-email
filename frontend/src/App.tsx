@@ -150,6 +150,7 @@ function App() {
                         <button
                           onClick={handleCancelUpload}
                           type="button"
+                          aria-label="Remover arquivo"
                           className="cursor-pointer"
                         >
                           <TrashIcon className="w-[20px] h-[20px] text-text-muted" />
