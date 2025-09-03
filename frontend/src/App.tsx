@@ -232,7 +232,7 @@ function App() {
 
         <EmailAnalyticsDashboard
           emails={emails}
-          isError={!isError}
+          isError={isError}
           isLoading={isLoading}
         />
       </main>
