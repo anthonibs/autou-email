@@ -4,6 +4,7 @@ uvicorn[standard]
 
 # Necessário para suportar formulários e upload de arquivos
 python-multipart
+spacy==3.7.0
 
 PyPDF2
 openai

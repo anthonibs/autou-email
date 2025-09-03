@@ -9,6 +9,7 @@ import os
 from backend.models import emails, generate_uuid
 from backend.schemas import EmailIn, EmailOut
 from backend.utils import read_file
+from backend.preprocess_text import preprocess_text
 from backend.gpt_classifier import classify_with_gpt
 
 from openai import OpenAI
@@ -65,7 +66,9 @@ async def process_email(
     else:
         raise HTTPException(status_code=422, detail="Validation error: No message or file provided")
 
-    classification = classify_with_gpt(content, client, examples)
+    content_processed = preprocess_text(content)
+
+    classification = classify_with_gpt(content_processed, client, examples)
 
     new_email = {
         "id": generate_uuid(),
