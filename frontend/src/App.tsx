@@ -80,11 +80,11 @@ function App() {
 
       <main className="max-w-[1440px] min-h-screen px-6 pb-10 mx-auto pt-20">
         <div className="mt-8">
-          <h1 className="text-4xl text-center font-bold bg-gradient-to-r from-blue-500 via-blue-900 to-blue-100 bg-clip-text text-transparent">
+          <h1 className="text-3xl md:text-4xl text-center font-bold bg-gradient-to-r from-blue-500 via-blue-900 to-blue-100 bg-clip-text text-transparent">
             Processe seu e-mail
           </h1>
 
-          <p className="mt-4 text-center text-text-muted">
+          <p className="mt-4 text-center text-[.875rem] md:text-[1rem] text-text-muted">
             Carregue um arquivo de e-mail ou cole o conteúdo diretamente para
             categorizá-lo e gerar uma resposta sugerida.
           </p>
@@ -92,7 +92,7 @@ function App() {
 
         <section className="bg-surface mt-8 w-full h-fit mx-auto p-6 rounded-lg shadow-md border border-border">
           <form noValidate>
-            <div className="flex gap-6 py-6">
+            <div className="flex flex-col md:flex-row gap-15 md:gap-6 py-6">
               <div className="w-full h-[260px]">
                 <h2 className="text-1xl font-bold text-text">
                   Upload arquivo no e-mail
@@ -180,12 +180,12 @@ function App() {
               </div>
             </div>
 
-            <div className="flex justify-end h-15">
+            <div className="flex w-full md:justify-end h-15">
               <button
                 type="button"
                 onClick={handleFormSubmit}
-                disabled={!file && !textAreaValue || isProcessing}
-                className="mt-6 flex gap-2 items-center justify-center shadow-2xl cursor-pointer text-[.875rem] bg-primary text-white px-5 p-2  h-fit rounded-[8px] hover:bg-primary-dark transition-colors disabled:bg-button-disabled disabled:text-text-disabled disabled:cursor-not-allowed"
+                disabled={(!file && !textAreaValue) || isProcessing}
+                className="mt-6 flex gap-2 items-center justify-center shadow-2xl w-full md:w-fit cursor-pointer text-[.875rem] bg-primary text-white px-5 p-2  h-fit rounded-[8px] hover:bg-primary-dark transition-colors disabled:bg-button-disabled disabled:text-text-disabled disabled:cursor-not-allowed"
               >
                 <PaperAirplaneIcon className="w-[20px] h-[20px] text-inherit" />
                 {isProcessing ? "Processando Email..." : "Processar Email"}
@@ -201,7 +201,7 @@ function App() {
             <h2 className="text-1xl font-bold text-text">Resultado</h2>
           </header>
 
-          <div className="flex gap-6">
+          <div className="flex flex-col md:flex-row gap-6">
             <div className="flex-1">
               <h3 className="text-[.875rem] text-text">Categoria do Email</h3>
 
@@ -232,7 +232,7 @@ function App() {
 
         <EmailAnalyticsDashboard
           emails={emails}
-          isError={isError}
+          isError={!isError}
           isLoading={isLoading}
         />
       </main>

@@ -92,8 +92,8 @@ const EmailAnalyticsDashboard = ({
 
   return (
     <section className="bg-surface mt-8 w-full h-fit mx-auto p-6 rounded-lg shadow-md border border-border">
-      <header className="flex items-center">
-        <h2 className="text-1xl font-bold text-text">Detalhes dos E-mails</h2>
+      <header className="flex flex-col md:items-center md:flex-row">
+        <h2 className="text-1xl  font-bold text-text">Detalhes dos E-mails</h2>
 
         <div className="ml-auto flex gap-2 items-center">
           <div className="flex gap-2 items-center border border-border relative p-2 rounded-lg w-full h-10 max-w-sm">
@@ -118,7 +118,7 @@ const EmailAnalyticsDashboard = ({
             <input
               type="search"
               placeholder="Digite o assunto do email"
-              className="border-none w-[200px] outline-none text-text-muted resize-none text-[.875rem]"
+              className="border-none w-full md:w-[200px] outline-none text-text-muted resize-none text-[.875rem]"
               value={searchSubject}
               onKeyDown={handleKeyDownSearch}
               onChange={(e) => setSearchSubject(e.target.value)}
@@ -129,14 +129,14 @@ const EmailAnalyticsDashboard = ({
             name="categoria"
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="h-10 px-2 outline-none cursor-pointer border border-border rounded-lg text-text-muted text-[.875rem]"
+            className="h-10 px-2 outline-none w-full cursor-pointer border border-border rounded-lg text-text-muted text-[.875rem]"
           >
             <option value="all">Todas as Categorias</option>
             <option value="productive">Produtivo</option>
             <option value="unproductive">Improdutivo</option>
           </select>
 
-          <button className="flex cursor-pointer items-center  gap-2 w-fit h-10 px-4 border text-text-muted text-[.875rem] border-border rounded-lg hover:bg-gray-100">
+          <button className="cursor-pointer items-center  gap-2 w-fit h-10 px-4 border text-text-muted text-[.875rem] border-border rounded-lg hover:bg-gray-100 hidden md:flex">
             <ArrowDownTrayIcon className="w-[20px] h-[20px] text-text-muted" />
             Exportar
           </button>
